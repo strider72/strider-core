@@ -1,8 +1,9 @@
 <?php
  $this_strider_core_b1 = array(
-	'version' => '0.1-beta-5',
-	'date' => '2015-02-27',
-	'file' => __FILE__ );
+	'version' => '0.1-beta-20150428',
+	'date' => '2015-04-28',
+	'file' => __FILE__
+ );
 
 // Strider Core -- Copyright 2009 by Stephen Rider
 // http://striderweb.com/nerdaphernalia/features/strider-core
@@ -80,7 +81,7 @@
 	* activate and deactivate hooks don't work from the "main" plugin files, because those files aren't called until after those hooks are fired.
 
  * Future compatibility note: If an upgrade is ever significantly 
-	non-backwards compatible, we can simply create load_strider_core_2() 
+	non-backwards compatible, I can simply create load_strider_core_2() 
 	which will only load legacy SC1 code if needed.  The code that 
 	hooks plugins_loaded will also un-hook the old load_strider_core() 
 	as needed.
@@ -123,7 +124,7 @@ Version Check routine:
 		time, and once for actual results.  Only run our update routine once!
 */
 
-if ( function_exists( 'load_strider_core_b1' ) && ! isset( $all_strider_core_b1 ) && ! class_exists( 'strider_core_b1' )  ) {
+if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_strider_core_b1 ) && ! class_exists( 'strider_core_b1' )  ) {
 
 	$strider_core_b1_firstrundone = false;
 
@@ -143,20 +144,21 @@ if ( function_exists( 'load_strider_core_b1' ) && ! isset( $all_strider_core_b1 
 		// FIXME: This should run for each strider_core_b1 plugin without main file having to call it.
 		function core_init() {
 
+			global $strider_core_b1_firstrundone;
+
 			$plugin_base_dir = dirname( plugin_basename( $this->plugin_file ) );
-			load_plugin_textdomain( $this->text_domain, 'wp-content/plugins/' . $plugin_base_dir . '/lang', $plugin_base_dir . '/lang' );
-			load_plugin_textdomain( 'strider_core_b1', 'wp-content/plugins/' . $plugin_base_dir . '/strider_core_b1/lang', $plugin_base_dir . '/strider_core_b1/lang' );
+			load_plugin_textdomain( $this->text_domain, null, $plugin_base_dir . '/lang' );
+			load_plugin_textdomain( 'strider-core', null, $plugin_base_dir . '/strider-core/lang' );
 
 // testing.  I think this can be safely moved to version_check()
 //			add_filter( 'pre_update_option_update_plugins', array( &$this, 'filter_set_update_plugins' ) );
 
 			// the rest only runs once
-			global $strider_core_b1_firstrundone;
 			if ( $strider_core_b1_firstrundone ) return true;
 			$strider_core_b1_firstrundone = true;
 
 			$this->core_activate();
-			$this->version_check();
+			//$this->version_check();
 
 			if ( ! defined( 'WP_CONTENT_URL' ) )
 				define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
@@ -222,10 +224,10 @@ if ( function_exists( 'load_strider_core_b1' ) && ! isset( $all_strider_core_b1 
 			_e( $text, $this->text_domain );
 		}
 		function sc__( $text ) {
-			return __( $text, 'strider_core_b1' );
+			return __( $text, 'strider-core' );
 		}
 		function sc_e( $text ) {
-			_e( $text, 'strider_core_b1' );
+			_e( $text, 'strider-core' );
 		}
 
 		function set_defaults( $mode = 'merge', $options ) {
@@ -306,6 +308,7 @@ if ( function_exists( 'load_strider_core_b1' ) && ! isset( $all_strider_core_b1 
 		}
 
 		function admin_footer() {
+			global $strider_core_b1_info;
 		// Add homepage link to settings page footer
 			$pluginfo = $this->get_plugin_data();
 			printf( $this->sc__('%1$s plugin | <span title="Strider Core version %2$s">Version %3$s</span> | by %4$s<br />'), $pluginfo['Title'], $strider_core_b1_info['version'], $pluginfo['Version'], $pluginfo['Author'] );
@@ -526,9 +529,9 @@ if ( function_exists( 'load_strider_core_b1' ) && ! isset( $all_strider_core_b1 
 } // end if
 
 // This code is called the first time that it is encountered
-if ( ! function_exists( 'load_strider_core_b1' ) ) {
+if ( ! function_exists( 'find_and_load_newest_strider_core_b1' ) ) {
 
-	function load_strider_core_b1() {
+	function find_and_load_newest_strider_core_b1() {
 		global $strider_core_b1_plugins;
 		global $all_strider_core_b1;
 		global $strider_core_b1_info;
@@ -548,7 +551,7 @@ if ( ! function_exists( 'load_strider_core_b1' ) ) {
 			include_once( $strider_core_b1_plugins[$key]['core file'] );
 		}
 	}
-	add_action( 'plugins_loaded', 'load_strider_core_b1', 3 );
+	add_action( 'plugins_loaded', 'find_and_load_newest_strider_core_b1', 3 );
 
 } // end if
 
