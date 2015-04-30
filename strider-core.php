@@ -138,8 +138,8 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 		public $option_bools : array of all user-settable boolean options
 		public $text_domain : domain for l18n. Currently also use as broader "plugin tag"
 		public $plugin_file : __FILE__ of the base plugin file
-		public $menu_icon_url : optional.  Full URL for admin menu icon.
 		*/
+		public $menu_icon_url = null; // overwrite if you want an icon
 
 		// FIXME: This should run for each strider_core_b1 plugin without main file having to call it.
 		function core_init() {
@@ -187,7 +187,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 		}
 
 		function core_deactivate() {
-			// FIXME: Still trying to figure out how to hook this....
+			// FIXME: Still trying to figure out how to hook this. Maybe just recommend using uninstall.php
 		}
 
 		function get_plugin_data( $param = null, $plugin_file = null ) {
@@ -215,14 +215,6 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 
 		// abstracting l18n functions so I don't have to pass domain each time
 		// also allows poedit to distinguish plugin-specific strings
-		function p__( $text ) {
-			_deprecated_function( __FUNCTION__, 'Strider Core 0.1 beta 5', '__()' );
-			return __( $text, $this->text_domain );
-		}
-		function p_e( $text ) {
-			_deprecated_function( __FUNCTION__, 'Strider Core 0.1 beta 5', '_e()' );
-			_e( $text, $this->text_domain );
-		}
 		function sc__( $text ) {
 			return __( $text, 'strider-core' );
 		}
@@ -237,7 +229,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 		protected function _set_defaults( $param ) {
 		// $param == $mode, $curr_options
 			$curr_options = $param[1];
-			$options = $param['options'];
+			$def_options = $param['options'];
 		
 			switch( $param[0] ) {
 				case 'unset' :
@@ -246,22 +238,22 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 					break;
 				case 'reset' :
 					delete_option( $this->option_name );
-					add_option( $this->option_name, $options );
+					add_option( $this->option_name, $def_options );
 					break;
 				case 'merge' :
 				case 'default' :
 					if ( ! $curr_options ) $curr_options = get_option( $this->option_name );
 					if ( $curr_options ) {
 					// Merge existing prefs with new or missing defaults
-						$options = array_merge( $options, $curr_options );
-						$options['last_opts_ver'] = $this->option_version;
-						update_option( $this->option_name, $options );
+						$def_options = array_merge( $def_options, $curr_options );
+						$def_options['last_opts_ver'] = $this->option_version;
+						update_option( $this->option_name, $def_options );
 					} else {
-						add_option( $this->option_name, $options );
+						add_option( $this->option_name, $def_options );
 					}
 					break;
 			}
-			return $options;
+			return $def_options;
 		}
 
 		function get_options( $refresh = false ) {
@@ -333,7 +325,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 				if ( ! $icon && $this->menu_icon_url ) 
 					$icon = $this->menu_icon_url;
 				if ( $icon )
-					return '<img src="' . $icon . '" alt="" title="" />';
+					return '<img src="' . $icon . '" style="height: 1em; fill: currentColor;" alt="" title="" />';
 			}
 			return '';
 		}
@@ -386,7 +378,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 
 		function core_admin_page() {
 		// dummy code -- not active
-		// we MUST find a way to programatically get "basepage.php?page=myplugin"
+		// FIXME: find a way to programatically get "basepage.php?page=myplugin"
 			add_action( 'in_admin_footer', array( &$this, 'admin_footer' ), 9 );
 
 			$options = $this->sc_process_form();
@@ -523,6 +515,20 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 			printf( $this->sc__('Version %1$s of %2$s is available for <a href="%3$s" title="%4$s">download</a>.'), $plugin->new_version, $plugin_data['Name'], $plugin_data['PluginURI'], $this->sc__('visit plugin homepage') );
 			echo '</div></td></tr>';
 		}
+		
+		//***********************
+		//  Deprecated
+		//***********************
+
+		function p__( $text ) {
+			_deprecated_function( __FUNCTION__, 'Strider Core 0.1 beta 5', '__()' );
+			return __( $text, $this->text_domain );
+		}
+		function p_e( $text ) {
+			_deprecated_function( __FUNCTION__, 'Strider Core 0.1 beta 5', '_e()' );
+			_e( $text, $this->text_domain );
+		}
+		
 
 	} // end class
 
