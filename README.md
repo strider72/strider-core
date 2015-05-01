@@ -6,7 +6,7 @@ Strider Core also has an interesting feature in that if multiple plugins are bui
 
 *NOTE:* This framework is still in early development, and thus functions may not be entirely stable.  There is no guarantee that later pre-1.0 versions will be backward compatible. *As a public framework, consider it alpha*, folks!
 
-# License
+## License
 Strider Core is released under a modified GPL2 license.
 The modification is as follows:
 
@@ -26,7 +26,7 @@ Everything within the "strider-core" folder is considered a part of Strider Core
 
 Trespassers will be violated.
 
-# How Strider Core versioning works:
+## How Strider Core versioning works:
 * Every Strider Core plugin loads its own strider-core.php file.
 * The first strider-core.php to be loaded creates the `load_strider_core()` function, and sets it to run on the plugins_loaded hook.
 * For each strider-core.php file, the `__FILE__` and version (above) are loaded into `$this_strider_core[]`, and then passed into the `$strider_core_info[]` array.  `$this_strider_core[]` is unset.
@@ -39,11 +39,11 @@ In the end, you are left with:
 * global `$strider_core_plugins[]` -- keys are the plugin basename and `['core file']` the "main" file full path for every active Strider Core plugin
 * ...and of course, the strider_core class
 
-# Known Limitations:
+## Known Limitations:
 * "main" plugin file isn't called until `plugins_loaded` hook.  This is soon after normal plugin load, but some things do happen before that.  Such as...
 * activate and deactivate hooks don't work from the "main" plugin files, because those files aren't called until after those hooks are fired.  An uninstall.php file should still work just fine.
 
 * Future compatibility note: If an upgrade is ever significantly non-backwards compatible, I can simply create `load_strider_core_2()` which will only load legacy SC1 code if needed.  The code that hooks `plugins_loaded` will also un-hook the old `load_strider_core()` as needed.
 
-# Known Issues:
+## Known Issues:
 * The Version Check routine is not complete.  Fully WP integrated, but lacks the actual code that goes and checks a server for a new version.  You can test by upping the version returned by `filter_set_update_plugins()`
