@@ -340,21 +340,10 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 			return $param[0];
 		}
 
-		// these three are used to display existing options in the admin form
-		function checkflag( $options, $optname ) {
-		// for checkboxes
-			return $options[$optname] ? ' checked="checked"' : '';
-		}
+		// this is used to display existing options in the admin form
 		function checktext( $options, $optname, $optdefault = '' ) {
 		// for text boxes or textarea
 			return $options[$optname] ? htmlspecialchars(stripslashes($options[$optname])) : htmlspecialchars($optdefault);
-		}
-		function checkcombo( $options, $optname, $thisopt, $is_default = false ) {
-		// for dropdowns
-			return (
-				( $is_default && ! $options[$optname] ) ||
-				$options[$optname] == $thisopt
-			) ? ' selected="selected"' : '';
 		}
 
 		function process_form() {
@@ -528,7 +517,18 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 			_deprecated_function( __FUNCTION__, 'Strider Core 0.1 beta 5', '_e()' );
 			_e( $text, $this->text_domain );
 		}
-		
+		function checkflag( $options, $optname ) {
+			_deprecated_function( __FUNCTION__, 'Strider Core 0.1 beta 5.1', 'checked()' );
+			return $options[$optname] ? ' checked="checked"' : '';
+		}
+		function checkcombo( $options, $optname, $thisopt, $is_default = false ) {
+			_deprecated_function( __FUNCTION__, 'Strider Core 0.1 beta 5.1', 'selected()' );
+			return (
+				( $is_default && ! $options[$optname] ) ||
+				$options[$optname] == $thisopt
+			) ? ' selected="selected"' : '';
+		}
+
 
 	} // end class
 
