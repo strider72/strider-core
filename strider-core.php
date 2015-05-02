@@ -53,7 +53,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 
 			$plugin_base_dir = dirname( plugin_basename( $this->plugin_file ) );
 			load_plugin_textdomain( $this->text_domain, null, $plugin_base_dir . '/lang' );
-			load_plugin_textdomain( 'strider-core', null, $plugin_base_dir . '/strider-core/lang' );
+			load_plugin_textdomain( 'strider_core_b1', null, $plugin_base_dir . '/strider-core/lang' );
 
 // testing.  I think this can be safely moved to version_check()
 //			add_filter( 'pre_update_option_update_plugins', array( &$this, 'filter_set_update_plugins' ) );
