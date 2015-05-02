@@ -9,8 +9,8 @@
 // Strider Core -- Copyright 2009 by Stephen Rider
 // http://striderweb.com/nerdaphernalia/features/strider-core
 
-/* To Do:
-	* Fix activate/deactivate hook problem.  Probably can hook a simple 
+// To Do:
+/*	* Fix activate/deactivate hook problem.  Probably can hook a simple
 		"container" function from the main plugin file.
 		* see core_activate function
 
@@ -44,7 +44,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 		public $text_domain : domain for l18n. Currently also use as broader "plugin tag"
 		public $plugin_file : __FILE__ of the base plugin file
 		*/
-		public $menu_icon_url = null; // overwrite if you want an icon
+		public $menu_icon_url = null; // overwrite if you want a menu icon (optional)
 
 		// FIXME: This should run for each strider_core_b1 plugin without main file having to call it.
 		function core_init() {
