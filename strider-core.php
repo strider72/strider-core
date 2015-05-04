@@ -257,16 +257,19 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 			else
 				return $this->get_options();
 		}
-		protected function _process_form( $text = '' ) {
+		protected function _process_form( $message = '', $extra_options = null ) {
 			check_admin_referer( $this->text_domain . '-update-options' );
 			$options = $_POST[$this->option_name];
+			if( $extra_options ) {
+				$options = array_merge( $extra_options, $options );
+			}
 			foreach( (array) $this->option_bools as $bool ) { 
 				// explicitly set all checkboxes true or false
 				$options[$bool] = $options[$bool] ? true : false;
 			}
 			$options['last_opts_ver'] = $this->option_version; // always update
 			update_option( $this->option_name, $options );
-			echo '<div id="message" class="updated fade"><p><strong>' . __('Settings saved.') . '</strong></p>' . $text . '</div>';
+			echo '<div id="message" class="updated fade"><p><strong>' . __('Settings saved.') . '</strong></p>' . $message . '</div>';
 			return $options;
 		}
 
