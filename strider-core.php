@@ -127,15 +127,12 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 			_e( $text, 'strider-core' );
 		}
 
-		function set_defaults( $mode = 'merge', $options ) {
-			// FIXME: this doesn't look right...
-			return $options ? $options : get_option( $this->option_name );
-		}
+		abstract function set_defaults( $mode, $curr_options );
 		protected function _set_defaults( $param ) {
 		// $param == $mode, $curr_options
 			$curr_options = $param[1];
-			$def_options = $param['options'];
-		
+			$def_options = $param['def_options'];
+
 			switch( $param[0] ) {
 				case 'unset' :
 					delete_option( $this->option_name );
@@ -147,7 +144,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 					break;
 				case 'merge' :
 				case 'default' :
-					if ( ! $curr_options ) $curr_options = get_option( $this->option_name );
+					if ( ! $curr_options ) $curr_options = $this->get_options();
 					if ( $curr_options ) {
 					// Merge existing prefs with new or missing defaults
 						$def_options = array_merge( $def_options, $curr_options );
