@@ -1,7 +1,7 @@
 <?php
- $this_strider_core_b1 = array(
-	'version' => '0.1-beta-20150428',
-	'date' => '2015-04-28',
+ $this_strider_core_b2 = array(
+	'version' => '0.1-beta-20150504',
+	'date' => '2015-05-04',
 	'file' => __FILE__
  );
 
@@ -29,14 +29,14 @@ Version Check routine:
 		time, and once for actual results.  Only run our update routine once!
 */
 
-if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_strider_core_b1 ) && ! class_exists( 'strider_core_b1' )  ) {
+if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_strider_core_b2 ) && ! class_exists( 'strider_core_b2' )  ) {
 
-	$strider_core_b1_firstrundone = false;
+	$strider_core_b2_firstrundone = false;
 
-	abstract class strider_core_b1 {
+	abstract class strider_core_b2 {
 
-		public $sc_data_name = 'plugin_strider_core_b1_data';
-		public $sc_option_name = 'plugin_strider_core_b1_options';
+		public $sc_data_name = 'plugin_strider_core_b2_data';
+		public $sc_option_name = 'plugin_strider_core_b2_options';
 		/* "Main" plugin file should also set...
 		public $option_name : name of option in wp_options, e.g. 'plugin_xxx_settings'
 		public $option_version : updated any time option structure changes
@@ -46,21 +46,21 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 		*/
 		public $menu_icon_url = null; // overwrite if you want a menu icon (optional)
 
-		// FIXME: This should run for each strider_core_b1 plugin without main file having to call it.
+		// FIXME: This should run for each strider_core_b2 plugin without main file having to call it.
 		function core_init() {
 
-			global $strider_core_b1_firstrundone;
+			global $strider_core_b2_firstrundone;
 
 			$plugin_base_dir = dirname( plugin_basename( $this->plugin_file ) );
 			load_plugin_textdomain( $this->text_domain, null, $plugin_base_dir . '/lang' );
-			load_plugin_textdomain( 'strider_core_b1', null, $plugin_base_dir . '/strider-core/lang' );
+			load_plugin_textdomain( 'strider_core_b2', null, $plugin_base_dir . '/strider-core/lang' );
 
 // testing.  I think this can be safely moved to version_check()
 //			add_filter( 'pre_update_option_update_plugins', array( &$this, 'filter_set_update_plugins' ) );
 
 			// the rest only runs once
-			if ( $strider_core_b1_firstrundone ) return true;
-			$strider_core_b1_firstrundone = true;
+			if ( $strider_core_b2_firstrundone ) return true;
+			$strider_core_b2_firstrundone = true;
 
 			$this->core_activate();
 			//$this->version_check();
@@ -205,10 +205,10 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 		}
 
 		function admin_footer() {
-			global $strider_core_b1_info;
+			global $strider_core_b2_info;
 		// Add homepage link to settings page footer
 			$pluginfo = $this->get_plugin_data();
-			printf( $this->sc__('%1$s plugin | <span title="Strider Core version %2$s">Version %3$s</span> | by %4$s<br />'), $pluginfo['Title'], $strider_core_b1_info['version'], $pluginfo['Version'], $pluginfo['Author'] );
+			printf( $this->sc__('%1$s plugin | <span title="Strider Core version %2$s">Version %3$s</span> | by %4$s<br />'), $pluginfo['Title'], $strider_core_b2_info['version'], $pluginfo['Version'], $pluginfo['Author'] );
 		}
 
 		function filter_plugin_actions( $links, $file ){
@@ -282,7 +282,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 		<form action="plugins.php?page=deprecated" method="post">
 			<?php
 			if ( function_exists( 'wp_nonce_field' ) )
-				wp_nonce_field( 'strider_core_b1-update-options' );
+				wp_nonce_field( 'strider_core_b2-update-options' );
 			?>
 			<table class="form-table">
 				<tbody>
@@ -440,33 +440,33 @@ if ( function_exists( 'find_and_load_newest_strider_core_b1' ) && ! isset( $all_
 } // end if
 
 // This code is called the first time that it is encountered
-if ( ! function_exists( 'find_and_load_newest_strider_core_b1' ) ) {
+if ( ! function_exists( 'find_and_load_newest_strider_core_b2' ) ) {
 
-	function find_and_load_newest_strider_core_b1() {
-		global $strider_core_b1_plugins;
-		global $all_strider_core_b1;
-		global $strider_core_b1_info;
+	function find_and_load_newest_strider_core_b2() {
+		global $strider_core_b2_plugins;
+		global $all_strider_core_b2;
+		global $strider_core_b2_info;
 
-		$best_file = $all_strider_core_b1[0];
-		foreach( (array) $all_strider_core_b1 as $this_core ) {
+		$best_file = $all_strider_core_b2[0];
+		foreach( (array) $all_strider_core_b2 as $this_core ) {
 			$best_file = version_compare( $best_file['version'], $this_core['version'] ) == 1 ? $best_file : $this_core;
 		}
 
-		unset( $all_strider_core_b1 );
-		require( $best_file['file'] );  // strider_core_b1 class is created
-		$strider_core_b1_info = array_pop( $all_strider_core_b1 );
-		unset( $all_strider_core_b1 );
-		// FIXME: somehow strider_core_b1s is being recreated later on.  Doesn't seem to hurt anything, just messy.
+		unset( $all_strider_core_b2 );
+		require( $best_file['file'] );  // strider_core_b2 class is created
+		$strider_core_b2_info = array_pop( $all_strider_core_b2 );
+		unset( $all_strider_core_b2 );
+		// FIXME: somehow strider_core_b2s is being recreated later on.  Doesn't seem to hurt anything, just messy.
 
-		foreach( array_keys( $strider_core_b1_plugins ) as $key ) {
-			include_once( $strider_core_b1_plugins[$key]['core file'] );
+		foreach( array_keys( $strider_core_b2_plugins ) as $key ) {
+			include_once( $strider_core_b2_plugins[$key]['core file'] );
 		}
 	}
-	add_action( 'plugins_loaded', 'find_and_load_newest_strider_core_b1', 3 );
+	add_action( 'plugins_loaded', 'find_and_load_newest_strider_core_b2', 3 );
 
 } // end if
 
-$all_strider_core_b1[] = $this_strider_core_b1;
-unset( $this_strider_core_b1 );
+$all_strider_core_b2[] = $this_strider_core_b2;
+unset( $this_strider_core_b2 );
 
 ?>
