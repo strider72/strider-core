@@ -39,11 +39,11 @@ In the end, you are left with:
 * global `$strider_core_plugins[]` -- keys are the plugin basename and `['core file']` the "main" file full path for every active Strider Core plugin
 * ...and of course, the strider_core class
 
-## Known Limitations:
+## Known Limitations
 * "main" plugin file isn't called until `plugins_loaded` hook.  This is soon after normal plugin load, but some things do happen before that.  Such as...
 * activate and deactivate hooks don't work from the "main" plugin files, because those files aren't called until after those hooks are fired.  An uninstall.php file should still work just fine.
 
 * Future compatibility note: If an upgrade is ever significantly non-backwards compatible, I can simply create `load_strider_core_2()` which will only load legacy SC1 code if needed.  The code that hooks `plugins_loaded` will also un-hook the old `load_strider_core()` as needed.
 
-## Known Issues:
+## Known Issues
 * The Version Check routine is not complete.  Fully WP integrated, but lacks the actual code that goes and checks a server for a new version.  You can test by upping the version returned by `filter_set_update_plugins()`
