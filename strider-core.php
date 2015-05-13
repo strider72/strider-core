@@ -128,12 +128,10 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 		}
 
 		abstract function set_defaults( $mode, $curr_options );
-		protected function _set_defaults( $param ) {
-		// $param == $mode, $curr_options
-			$curr_options = $param[1];
-			$def_options = $param['def_options'];
 
-			switch( $param[0] ) {
+		protected function _set_defaults( $mode = 'merge', $curr_options = null, $def_options ) {
+
+			switch( $mode ) {
 				case 'unset' :
 					delete_option( $this->option_name );
 					return true;
