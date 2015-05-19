@@ -183,7 +183,9 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 		}
 		protected function _get_options() {
 			$options = get_option( $this->option_name );
-			if ( ! $options['last_opts_ver'] || version_compare( $this->option_version, $options['last_opts_ver'], '>' ) ) {
+			if ( ! $options['last_opts_ver'] ) {
+				$options = $this->set_default_options( 'reset' );
+			} elseif ( version_compare( $this->option_version, $options['last_opts_ver'], '>' ) ) {
 				$options = $this->set_default_options( 'merge', $options );
 			}
 			return $options;
