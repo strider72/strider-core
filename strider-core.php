@@ -99,7 +99,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 			// You can optionally pass a specific value to fetch, e.g. 'Version' -- but it's inefficient to do that multiple times
 			// WP 2.7: 'Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version', 'TextDomain', 'DomainPath', 'Title'
 			static $plugin_data;
-			if ( ! $plugin_data || ! $plugin_file ) {
+			if ( ! $plugin_data ) {
 				if ( ! $plugin_file ) $plugin_file = $this->plugin_file;
 	 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 				$plugin_data = get_plugin_data( $this->plugin_file );
@@ -291,12 +291,12 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 		protected function _process_form( $message = '', $extra_options = null ) {
 			check_admin_referer( $this->text_domain . '-update-options' );
 			$options = $_POST[$this->option_name];
-			if( $extra_options ) {
+			if( $extra_options !== null ) {
 				$options = array_merge( $extra_options, $options );
 			}
 			foreach( (array) $this->option_bools as $bool ) { 
 				// explicitly set all checkboxes true or false
-				$options[$bool] = $options[$bool] ? true : false;
+				$options[$bool] = isset( $options[$bool] ) ? true : false;
 			}
 			$options['last_opts_ver'] = $this->option_version; // always update
 			update_option( $this->option_name, $options );
