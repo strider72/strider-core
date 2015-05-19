@@ -127,9 +127,32 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 			_e( $text, 'strider-core' );
 		}
 
-		abstract function set_defaults( $mode, $curr_options );
+		/**
+		 * Set an array containing default options, then pass it to _set_default_options.
+		 *
+		 * Parameters allow for either merging new defaults with pre-existing settings,
+		 * or simply resetting everything to defaults.
+		 *
+		 * @param $mode
+		 * @param $curr_options
+		 *
+		 * @return mixed
+		 */
+		abstract function set_default_options( $mode, $curr_options );
 
-		protected function _set_defaults( $mode = 'merge', $curr_options = null, $def_options ) {
+		/**
+		 * Accepts array of options from wrapper function and saves to database.
+		 *
+		 * @see strider_core_b2::set_default_options
+		 *
+		 * @param array $def_options default options determined by set_defaults() wrapper
+		 * @param string $mode 'reset' or 'merge'
+		 * @param null $curr_options existing options that should be merged (e.g. set_defaults
+		 * might run in a situation where not all settings are being set explicitly.
+		 *
+		 * @return array|bool
+		 */
+		protected function _set_default_options( $def_options, $mode = 'merge', $curr_options = null ) {
 
 			switch( $mode ) {
 				case 'unset' :
@@ -167,7 +190,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 		protected function _get_options() {
 			$options = get_option( $this->option_name );
 			if ( ! $options['last_opts_ver'] || version_compare( $this->option_version, $options['last_opts_ver'], '>' ) ) {
-				$options = $this->set_defaults( 'merge', $options );
+				$options = $this->set_default_options( 'merge', $options );
 			}
 			return $options;
 		}
@@ -430,6 +453,10 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 				( $is_default && ! $options[$optname] ) ||
 				$options[$optname] == $thisopt
 			) ? ' selected="selected"' : '';
+		}
+		function _set_defaults( $def_options, $mode = 'merge', $curr_options = null ) {
+			_deprecated_function( __FUNCTION__, 'Strider Core 0.2 beta 1', '_set_default_options()' );
+			return $this->_set_default_options($def_options, $mode, $curr_options);
 		}
 
 
