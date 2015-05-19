@@ -1,7 +1,18 @@
 <?php
+/**
+ * Strider Core is a framework for WordPress plugins
+ *
+ * Does a lot of the common stuff I kept copy/paste repeating in all my plugins.
+ * I'd rather write once!  In the future may also include version checking
+ *
+ * @link https://github.com/strider72/strider-core
+ *
+ * @package WP Strider Core
+ */
+
  $this_strider_core_b2 = array(
-	'version' => '0.1-beta-20150504',
-	'date' => '2015-05-04',
+	'version' => '0.2-beta-1',
+	'date' => '2015-05-19',
 	'file' => __FILE__
  );
 
