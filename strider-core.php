@@ -155,25 +155,19 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 		protected function _set_default_options( $def_options, $mode = 'merge', $curr_options = null ) {
 
 			switch( $mode ) {
-				case 'unset' :
-					delete_option( $this->option_name );
-					return true;
-					break;
-				case 'reset' :
-					delete_option( $this->option_name );
-					add_option( $this->option_name, $def_options );
-					break;
 				case 'merge' :
-				case 'default' :
 					if ( ! $curr_options ) $curr_options = $this->get_options();
 					if ( $curr_options ) {
 					// Merge existing prefs with new or missing defaults
 						$def_options = array_merge( $def_options, $curr_options );
 						$def_options['last_opts_ver'] = $this->option_version;
-						update_option( $this->option_name, $def_options );
-					} else {
-						add_option( $this->option_name, $def_options );
 					}
+					update_option( $this->option_name, $def_options );
+					break;
+				case 'reset' :
+				case 'default' :
+					delete_option( $this->option_name );
+					add_option( $this->option_name, $def_options );
 					break;
 			}
 			return $def_options;
