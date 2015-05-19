@@ -195,6 +195,23 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 			return $options;
 		}
 
+		/**
+		 * Updates a single member of the plugin's Options array.
+		 *
+		 * Plugins commonly (should) put options in an array and save the array as a single entry in the
+		 * WP Options table.  This plugin eases updating a single member of that array.
+		 *
+		 * @param $option
+		 * @param $value
+		 *
+		 * @return bool
+		 */
+		function update_option( $option, $value ) {
+			$options = get_option( $this->option_name );
+			$options[$option] = $value;
+			return update_option( $this->option_name, $options );
+		}
+
 		//***********************
 		// Admin Page Stuff
 		//***********************
