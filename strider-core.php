@@ -138,30 +138,6 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 			_e( $text, 'strider-core' );
 		}
 
-		/**
-		 * Set an array containing default options, then pass it to _set_default_options.
-		 *
-		 * Parameters allow for either merging new defaults with pre-existing settings,
-		 * or simply resetting everything to defaults.
-		 *
-		 * @param $mode
-		 * @param $curr_options
-		 *
-		 * @return mixed
-		 */
-
-		/**
-		 * Accepts array of options from wrapper function and saves to database.
-		 *
-		 * @see strider_core_b2::set_default_options
-		 *
-		 * @param array $def_options default options determined by set_defaults() wrapper
-		 * @param string $mode 'reset' or 'merge'
-		 * @param null $curr_options existing options that should be merged (e.g. set_defaults
-		 * might run in a situation where not all settings are being set explicitly.
-		 *
-		 * @return array|bool
-		 */
 		function set_default_options ( $mode = 'merge', $curr_options = null ) {
 			if ( $mode == 'reset') { delete_option( $this->option_name ); };
 			return update_option( $this->option_name, $this->get_default_options( $mode, $curr_options ) );
