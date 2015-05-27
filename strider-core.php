@@ -212,6 +212,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 				else
 					$icon = '';
 				$page = add_submenu_page( $param[0], $param[1], $icon . $param[2], $param[3], $param[4], array( &$this, $param[5] ) );
+				add_action( 'admin_init', array( &$this, 'register_settings' ) );
 
 				$this->admin_link = $param[0] . '?page=' . $param[4];
 
@@ -220,6 +221,9 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 				return $page;
 			}
 			return false;
+		}
+
+		function register_settings () {
 		}
 
 		function admin_footer() {
