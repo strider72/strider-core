@@ -91,7 +91,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 
 			// mock activation hook
 			// If the options aren't in the DB, it must have just been activated
-			if ( ! $sc_data || ! $sc_data['plugins'][plugin_basename($this->plugin_file)] ) {
+			if ( ! $sc_data || ! isset( $sc_data['plugins'][plugin_basename( $this->plugin_file )] ) ) {
 				$this_plugin = $this->get_plugin_data();
 				$sc_data['plugins'][plugin_basename( $this->plugin_file )]['name'] = $this_plugin['Name'];
 				$sc_data['plugins'][plugin_basename( $this->plugin_file )]['version'] = $this_plugin['Version'];
