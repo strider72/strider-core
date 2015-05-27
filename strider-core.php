@@ -211,6 +211,7 @@ if ( function_exists( 'find_and_load_newest_strider_core_b2' ) && ! isset( $all_
 					$icon = $this->add_adminmenu_icon( $param[6] ) . ' ';
 				else
 					$icon = '';
+
 				$page = add_submenu_page( $param[0], $param[1], $icon . $param[2], $param[3], $param[4], array( &$this, $param[5] ) );
 				add_action( 'admin_init', array( &$this, 'register_settings' ) );
 
